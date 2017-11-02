@@ -25,7 +25,7 @@ exports.default = function (obj) {
 };
 
 },{}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -33,13 +33,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _bestbuy = require("./bestbuy");
+var _bestbuy = require('./bestbuy');
 
 var _bestbuy2 = _interopRequireDefault(_bestbuy);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+window.slider = $('#product').bxSlider();
 
 var App = function () {
 	function App() {
@@ -49,7 +51,7 @@ var App = function () {
 	}
 
 	_createClass(App, [{
-		key: "initBBCall",
+		key: 'initBBCall',
 		value: function initBBCall(cat) {
 			$('#product').empty();
 			(0, _bestbuy2.default)({ url: "https://api.bestbuy.com/v1/products" + cat, api: "8ccddf4rtjz5k5btqam84qak" }).then(function (data) {
@@ -58,7 +60,7 @@ var App = function () {
 				for (var i = 0; i < 6; i++) {
 					$("#product").append('<li><div class="item-whole"><a href="#"><h1 class="item-manu">' + data.products[i].manufacturer + '</h1><p class="item-title">' + data.products[i].albumTitle + '</p><div class="item-bg" style="background-image:url(' + data.products[i].largeFrontImage + ')"></div></a><h2 class="item-price">$' + data.products[i].salePrice + '</h2><button>ADD</button></div></li>');
 				}
-				$('#product').bxSlider({
+				window.slider.reloadSlider({
 					maxSlides: 2,
 					minSlides: 2,
 					slideWidth: 800
@@ -80,9 +82,9 @@ exports.default = App;
 
 var x = new App();
 console.log("hello");
-
 //smooth scrolling
 $('a[href^="#"]').on('click', function (e) {
+
 	e.preventDefault();
 
 	var target = this.hash;
@@ -90,7 +92,7 @@ $('a[href^="#"]').on('click', function (e) {
 
 	$('html, body').stop().animate({
 		'scrollTop': $target.offset().top
-	}, 1000, 'swing', function () {
+	}, 1500, 'swing', function () {
 		window.location.hash = target;
 	});
 });
@@ -104,6 +106,11 @@ $('li').on('click', function (e) {
 
 $('a').on('click', function (a) {
 	a.preventDefault();
+});
+//cart
+$("a#cart").on("click", function () {
+	console.log("pop-up cart");
+	$("#pop-up").css({ display: "block", cursor: "default" });
 });
 
 },{"./bestbuy":1}]},{},[2]);

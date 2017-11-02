@@ -9,9 +9,33 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
+  <div id="myNav" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="overlay-content">
+        <h1>YOUR CART</h1>
+        <ul id="totals">
+        <li>TOTAL ITEMS:<span id="total-item"></span></li>
+        <li><pre>  |  </pre></li>
+        <li>CART TOTAL:<span id="total-cart"></span></li>
+        </ul>
+        <ul id="sub-totals">
+          <li>name qauntity(input) total:$$$ <button>update | remove</button></li>
+          
+        </ul>
+      </div>
+    </div>
+  <script>
+  function openNav() {
+      document.getElementById("myNav").style.height = "100%";
+  }
+
+  function closeNav() {
+      document.getElementById("myNav").style.height = "0%";
+  }
+  </script>
   <header>
     <div>
-    <a id="cart" href="#"><img src="http://icons.iconarchive.com/icons/iconsmind/outline/512/Shopping-Cart-icon.png"></a>
+    <a id="cart" onclick="openNav()" href=""><img src="http://icons.iconarchive.com/icons/iconsmind/outline/512/Shopping-Cart-icon.png"></a>
     </div>
     <h1>WELCOME TO BESTBUY STORE</h1>
     <h2>SHOP HERE, FOR SOME REASON</h2>
@@ -23,10 +47,10 @@
   </div>
   <div id="select" class="select">
     <ul>
-      <a href=""><li data-value="(categoryPath.id=abcat0502000)" id="laptops">LAPTOPS</li></a>
-      <a href=""><li data-value="(categoryPath.id=abcat0800000)" id="cell">CELL PHONES</li></a>
-      <a href=""><li data-value="(categoryPath.id=pcmcat333800050003)"id="tv">TELIVISION</li></a>
-      <a href=""><li data-value="(categoryPath.id=abcat0204000)"id="headphones">HEADPHONES</li></a>
+      <a href="#product"><li data-value="(categoryPath.id=abcat0502000)" id="laptops">LAPTOPS</li></a>
+      <a href="#product"><li data-value="(categoryPath.id=pcmcat305200050000)" id="cell">CELL PHONES</li></a>
+      <a href="#product"><li data-value="(categoryPath.id=pcmcat333800050003)" id="tv">TELIVISION</li></a>
+      <a href="#product"><li data-value="(categoryPath.id=abcat0204000)" id="headphones">HEADPHONES</li></a>
     </ul>
   </div>
   <section id="container">
@@ -36,5 +60,6 @@
     </div>
  </section>
   <script src="./js/bundle.js"></script>
+</div>
 </body>
 </html>

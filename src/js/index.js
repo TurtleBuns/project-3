@@ -1,4 +1,5 @@
 import request from "./bestbuy";
+window.slider = $('#product').bxSlider();
 export default class App{
 	constructor(){
 		this.initBBCall();
@@ -16,10 +17,10 @@ export default class App{
 				+ ')"></div></a><h2 class="item-price">$'+ data.products[i].salePrice
 				+ '</h2><button>ADD</button></div></li>');
 			}
-		    $('#product').bxSlider({
+		    window.slider.reloadSlider({
 					maxSlides:2,
 					minSlides:2,
-					slideWidth:800
+					slideWidth:800,
 		    });
 
 			console.log(data.currentPage);
@@ -33,10 +34,9 @@ export default class App{
 }
 let x = new App;
 console.log("hello");
-
-
 //smooth scrolling
  $('a[href^="#"]').on('click',function (e) {
+
 	    e.preventDefault();
 
 	    var target = this.hash;
@@ -44,7 +44,7 @@ console.log("hello");
 
 	    $('html, body').stop().animate({
 	        'scrollTop': $target.offset().top
-	    }, 1000, 'swing', function () {
+	    }, 1500, 'swing', function () {
 	        window.location.hash = target;
 	    });
 	});
@@ -58,4 +58,9 @@ $('li').on('click',function(e){
 
 $('a').on('click',function(a){
 	a.preventDefault();
+});
+//cart
+$("a#cart").on("click",function(){
+	console.log("pop-up cart");
+	$("#pop-up").css({display:"block",cursor:"default"});
 });
