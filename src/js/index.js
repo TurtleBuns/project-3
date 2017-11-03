@@ -11,12 +11,38 @@ export default class App{
 			console.log(data);
 
 			for (var i=0;i<6;i++){
-				$("#product").append('<li><div class="item-whole"><a href="#"><h1 class="item-manu">' + data.products[i].manufacturer
+				//fill slider
+				$("#product").append('<li><div class="item-whole"><a id="'+data.products[i].sku+'" href="#"><h1 class="item-manu">' + data.products[i].manufacturer
 				+ '</h1><p class="item-title">' + data.products[i].albumTitle
 				+'</p><div class="item-bg" style="background-image:url(' + data.products[i].largeFrontImage
 				+ ')"></div></a><h2 class="item-price">$'+ data.products[i].salePrice
-				+ '</h2><button>ADD</button></div></li>');
+				+ '</h2><button id='+data.products[i].sku+' class="add-to-cart" data-sku="'+ data.products[i].sku+'" data-price="'+data.products[i].salePrice+' " >ADD</button></div></li>');
 			}
+			//add-to-cart button
+			$("button.add-to-cart").on("click",function(){
+				console.log("adding to cart");
+				var sku = $(this).data("sku");
+				var price= $(this).data("price");
+				if(sessionStorage.getItem(sku)==null){
+						var quantity = 1;
+						var item = {'price':price,'quantity':quantity};
+						sessionStorage.setItem(sku,JSON.stringify(item));
+				}else{
+					var temp = JSON.parse(sessionStorage.getItem(sku));
+					temp.quantity+=1;
+					temp.price = JSON.stringify(item).price*temp.quantity;
+					sessionStorage.setItem(sku,JSON.stringify(temp));
+				}
+				/*$("#sub-totals").append('<li>SKU: '+ $(this).data("sku") + ' <span id="qauntity">QUANTITY<input type="number"></span> TOTAL:$'+$(this).data("price")+' <button>update | remove</button></li>');
+				$("#total-item").empty();
+				$("#total-item").append($("#sub-totals")["0"].children.length);
+				console.log($("#sub-totals")) */
+
+			});
+			//local storage
+
+
+			//slider reload
 		    window.slider.reloadSlider({
 					maxSlides:2,
 					minSlides:2,
@@ -48,8 +74,8 @@ console.log("hello");
 	        window.location.hash = target;
 	    });
 	});
-//smooth end
 
+//category select
 $('li').on('click',function(e){
 
 	e.preventDefault();
@@ -58,9 +84,4 @@ $('li').on('click',function(e){
 
 $('a').on('click',function(a){
 	a.preventDefault();
-});
-//cart
-$("a#cart").on("click",function(){
-	console.log("pop-up cart");
-	$("#pop-up").css({display:"block",cursor:"default"});
 });

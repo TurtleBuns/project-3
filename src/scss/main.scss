@@ -26,6 +26,9 @@ header{
       background-color: #60B087;
       border-radius: 100%;
       padding: 1%;
+      &:hover{
+        border: 1px solid #ffffff;
+      }
       img{
         width: 80%;
         color: #ffffff;
@@ -135,7 +138,7 @@ div.select{
     left: 0;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0, 0.5);
-    overflow-y: hidden;
+    overflow-y: scroll;
     transition: 1s;
     .closebtn {
         position: absolute;
@@ -149,12 +152,13 @@ div.select{
     }
     .overlay-content {
         position: relative;
-        top: 25%;
+        top: 20%;
         left:15%;
         width: 70%;
         text-align: left;
         margin-top: 0px;
         background-color: #ffffff;
+      
         h1{
           font-size: 3em;
           font-weight: 900;
@@ -164,7 +168,20 @@ div.select{
           display: flex;
           transition: 0.3s;
           li{
-            display: inline;
+            display: flex;
+          }
+        }
+        #sub-totals{
+          li{
+            display: flex;
+            justify-content:space-between;
+            align-content: space-between;
+            text-align: center;
+            font-size: 0.9em;
+            padding: 5px;
+            input{
+              width: 40px;
+            }
           }
         }
     }
