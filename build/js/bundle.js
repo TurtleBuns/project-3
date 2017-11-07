@@ -88,7 +88,7 @@ var App = function () {
 						var qty = obj.quantity;
 						var price = parseFloat(obj.price);
 						cartTotal += parseFloat(obj.price);
-						$("#sub-totals").append('<li>SKU: ' + skuKey + '<span>QUANTITY:<input id="input" type="number" value="' + qty + '"></span><span> TOTAL:$' + price + '</span><button data-skukey=' + skuKey + ' id="update">update</button><button data-skukey=' + skuKey + ' id="remove">remove</button></li>');
+						$("#sub-totals").append('<li>SKU: ' + skuKey + '<span>QUANTITY:<input id="input" type="number" value="' + qty + '"></span><span id="subtotal"> TOTAL:$' + price + '</span><button data-skukey=' + skuKey + ' id="update">update</button><button data-skukey=' + skuKey + ' id="remove">remove</button></li>');
 
 						$("#total-item").empty();
 						$("#total-item").append($("#sub-totals")["0"].children.length);
@@ -102,8 +102,20 @@ var App = function () {
 					});
 					//update cart
 					$("button#update").on("click", function () {
+						var skukey = $(this).data("skukey");
 						console.log($(this).data("skukey"));
-						console.log(sessionStorage.getItem(JSON.parse($(this).data("skukey"))));
+						console.log(JSON.parse(sessionStorage.getItem(skukey)).quantity);
+						console.log($(this).parent().find("#input").val());
+						var oldQ = JSON.parse(sessionStorage.getItem(skukey));
+						var newQ = parseInt($(this).parent().find("#input").val());
+						var subTotal = oldQ.price / oldQ.quantity * newQ;
+						subTotal = subTotal.toFixed(2);
+						$(this).parent().find("#subtotal").text('TOTAL:$' + subTotal);
+						oldQ.quantity = newQ;
+						oldQ.price = subTotal;
+						sessionStorage.setItem(skukey, JSON.stringify(oldQ));
+
+						//	sessionStorage.setItem(skukey,JSON.stringify(newP));
 					});
 					//total
 					$("#total-cart").empty();
