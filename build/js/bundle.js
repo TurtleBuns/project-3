@@ -53,6 +53,7 @@ var App = function () {
 	_createClass(App, [{
 		key: 'initBBCall',
 		value: function initBBCall(cat) {
+			console.log(cat);
 			$('#product').empty();
 			(0, _bestbuy2.default)({ url: "https://api.bestbuy.com/v1/products" + cat, api: "8ccddf4rtjz5k5btqam84qak" }).then(function (data) {
 				console.log(data);
@@ -73,16 +74,43 @@ var App = function () {
 					} else {
 						var temp = JSON.parse(sessionStorage.getItem(sku));
 						temp.quantity += 1;
-						temp.price = JSON.stringify(item).price * temp.quantity;
+						temp.price = price * temp.quantity;
 						sessionStorage.setItem(sku, JSON.stringify(temp));
 					}
-					/*$("#sub-totals").append('<li>SKU: '+ $(this).data("sku") + ' <span id="qauntity">QUANTITY<input type="number"></span> TOTAL:$'+$(this).data("price")+' <button>update | remove</button></li>');
-     $("#total-item").empty();
-     $("#total-item").append($("#sub-totals")["0"].children.length);
-     console.log($("#sub-totals")) */
 				});
-				//local storage
+				$("#cart").on('click', function () {
+					$("#sub-totals").empty();
+					var cartTotal = 0;
+					for (var i = 0; i < sessionStorage.length; i++) {
+						console.log(sessionStorage.getItem(sessionStorage.key(i)));
+						var obj = JSON.parse(sessionStorage.getItem(sessionStorage.key(i)));
+						var skuKey = JSON.parse(sessionStorage.key(i));
+						var qty = obj.quantity;
+						var price = parseFloat(obj.price);
+						cartTotal += parseFloat(obj.price);
+						$("#sub-totals").append('<li>SKU: ' + skuKey + '<span>QUANTITY:<input id="input" type="number" value="' + qty + '"></span><span> TOTAL:$' + price + '</span><button data-skukey=' + skuKey + ' id="update">update</button><button data-skukey=' + skuKey + ' id="remove">remove</button></li>');
 
+						$("#total-item").empty();
+						$("#total-item").append($("#sub-totals")["0"].children.length);
+					}
+					//remove from cart
+					$("button#remove").on("click", function () {
+						console.log("removing");
+						console.log($('#remove').data("skukey"));
+						sessionStorage.removeItem($(this).data("skukey"));
+						$(this).parent().remove();
+					});
+					//update cart
+					$("button#update").on("click", function () {
+						console.log($(this).data("skukey"));
+						console.log(sessionStorage.getItem(JSON.parse($(this).data("skukey"))));
+					});
+					//total
+					$("#total-cart").empty();
+					$("#total-cart").text('$' + cartTotal);
+					parseInt($("#total-cart"));
+					//	$("#total-cart").toFixed(2);
+				});
 
 				//slider reload
 				window.slider.reloadSlider({
@@ -90,9 +118,7 @@ var App = function () {
 					minSlides: 2,
 					slideWidth: 800
 				});
-
-				console.log(data.currentPage);
-				console.log(cat);
+				//
 			}).catch(function (error) {
 				console.log("warning Christopher Robins... Error");
 				console.log(error);
@@ -121,16 +147,16 @@ $('a[href^="#"]').on('click', function (e) {
 		window.location.hash = target;
 	});
 });
-
-//category select
-$('li').on('click', function (e) {
-
-	e.preventDefault();
-	x.initBBCall($(this).data('value'));
-});
-
 $('a').on('click', function (a) {
 	a.preventDefault();
+});
+
+//category select
+x.initBBCall("(categoryPath.id=abcat0502000)");
+
+$('li').on('click', function (e) {
+	e.preventDefault();
+	x.initBBCall($(this).data('value'));
 });
 
 },{"./bestbuy":1}]},{},[2]);
